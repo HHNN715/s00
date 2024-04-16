@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head lang=""ja">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>確認画面</title>
+        <link rel="stylesheet" href="css/style.css">
+
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.js"  crossorigin="anonymous"></script>
+
+    </head>
+
+    <body>
+        <div class="contentT2">
+            <h1>入会申し込み確認</h1>
+        </div>
+        <div class="content2T2">
+            <p>登録確認OK？</p>
+            <p>メールアドレス :<lavel id="mailaddr"></lavel></p>
+            <p>職業：<lavel id="id_profession"></lavel></p>
+            <p><button type="submit">送信する</button></p>
+            <p><button type="button" onclick="location.href = '../WebStorageTest/Index.html'">戻る</button></p>
+        </div>
+
+        <div>
+            <a href="https://techacademy.jp/" class="xxxxLink">リンク</a>
+        </div>
+        <div>
+            <a href="https://techacademy.jp/" class="xxxxLink">リンク2</a>
+        </div>
+        
+         <!-- 外部URL参照 -->  
+         <script>
+            var result00 = confirm("外部への参照を実施してメールアドレスを取得しますか？");
+            if (result00) {
+                var request = new XMLHttpRequest();
+                request.open('GET', 'https://jsonplaceholder.typicode.com/users/1', true);
+                request.responseType = 'json';
+
+                request.onload = function () {
+                    var data = this.response;
+                    //console.log(data);
+                    //alert("666");
+                    //alert("●id=" + data.id + ", ●name=" + data.name + ", ●username="+ data.username +", ●suite="+ data.address.suite);
+                    document.getElementById('mailaddr').textContent = data.email;
+                    //alert("777");
+                };
+
+                request.send();
+            }
+
+
+            // 値を受け取る
+//          const value = sessionStorage.getItem('S0000_profession');
+//          document.getElementById('id_profession').textContent = value;
+            document.getElementById('id_profession').textContent = sessionStorage.getItem('S0000_profession');
+
+        </script>
+        
+
+        
+         <!-- 外部参照   -->
+         <script src="js/gJsLink.js"></script>
+
+
+        </body>
+</html>

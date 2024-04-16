@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+    <head lang=""ja">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>WebStorageテスト</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+ 
+    <header>
+        <h1>headerです</h1>
+    </header>
+
+    <body>
+ 
+        <div class="content">
+            <h1>WebStorageテスト(sessionStorage)</h1>
+        </div>
+<!--
+            <div class="content2">
+            <p>入力してください</p>
+            <p><label for="mym">データ１ : </label><input id="mym" type="text" name="text01"></p>
+            <p>データ２：<input type="text" name="text02"></p>
+            <input type="button" id="btn" value="登録" onclick="location.href = '../chapter02/Index.html'" />
+         </div>
+-->
+		<script type="text/javascript">
+
+//            if (typeof sessionStorage !== 'undefined') {
+//              // Web Storageに関する処理を記述
+//                window.alert("本ブラウザでWeb Storageは使用可能");
+//            } else {
+//                window.alert("本ブラウザではWeb Storageが使えません");
+//            }
+
+			var storage = sessionStorage;
+
+			// **************************************************
+			// get sessionStorageから取得
+			// **************************************************
+            function getSessionStorage() {
+                // 下記は画面上にリスト表示する処理がほとんどで、値を取得して画面に表示するだけなら1行で済む。
+                var list = document.getElementById("list")
+                while (list.firstChild) list.removeChild(list.firstChild);
+
+                // リストの要素をクリアする
+                document.querySelector('#idselectItem').innerHTML = '';
+
+                // sessionStorageすべての情報の取得
+                for (var i=0; i < storage.length; i++) {
+                    var _key = storage.key(i);
+
+                    // sessionStorageのキーと値を表示
+                    var tr = document.createElement("tr");
+                    var td1 = document.createElement("td");
+                    var td2 = document.createElement("td");
+                    list.appendChild(tr);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    td1.innerHTML = _key;
+                    td2.innerHTML = storage.getItem(_key);
+
+                    // リストに設定する    
+                    //select要素を取得する
+                    const selectName = document.getElementById('idselectItem');
+                    ///option要素を新しく作る
+                    const option1 = document.createElement('option');
+                    //option要素にvalueと表示名を設定
+                    option1.value = _key;
+                    option1.textContent = storage.getItem(_key);
+                    //select要素にoption要素を追加する
+                    selectName.appendChild(option1)
+                }
+           }
+
+			// **************************************************
+			// set sessionStorageへの格納
+			// **************************************************
+            function setSessionStorage() {
+                var key = document.getElementById("textkey").value;
+                var value = document.getElementById("textdata").value;
+
+                // 値の入力チェック
+                if (key) {
+                    storage.setItem(key, value);
+               }
+               getSessionStorage();
+            }
+
+			// **************************************************
+			// serch sessionStorage検索
+			// **************************************************
+            function searchSessionStorage() {
+                var searchkey = document.getElementById("searchkey").value;
+                var outdata = storage.getItem(searchkey);
+                if (outdata === null) {
+                    outdata = "データなし";
+                }
+                document.getElementById('searchdata').textContent = outdata;
+            }
+
+
+
+/*
+            // 新しいボタン要素を作成
+            let btn = document.createElement("button");
+            // ボタンのテキストを設定
+            btn.innerHTML = "送信";
+            // ボタンにクリックイベントのハンドラーを割り当てる
+            btn.onclick = () => {
+                //alert(text01 + ", " + text02);
+                location.href = '../WebStorage/test2.html'; 
+            };
+            // ボタンをbody要素に追加
+            document.body.appendChild(btn);
+*/
+
+ 			// **************************************************
+			// ページ読み込み時に実行したい処理
+			// **************************************************
+            window.onload = function(){
+            // ページ読み込み時に実行したい処理
+                //alert("どうでしょうか");
+                getSessionStorage();
+            }
+
+        </script>
+    </body>
+
+    <section id="main">
+        <div class="inputHozon">
+            <label for="key">保存するKey：<span class="req">必須</span><input class="textkeycls" id="textkey" type="text" /></label>
+<!--
+        <script type="text/javascript">
+            // 上記の入力欄にフォーカスを与える ただし、視覚障害者にはNGかも
+            document.getElementById('textkey').focus();
+        </script>
+-->
+            <label class="inputHozon2">保存する値 ：<input id="textdata" type="text" /></label>
+            <p></p>
+            <button id="button" onclick="setSessionStorage()">保存(未入力時はリスト表示のみ)</button>
+            <label class="check_01"><input type="checkbox" name="chk01" id="check1"> alertを表示する</label>
+        </div>
+ 
+<!--
+        <button id="button" onclick="removeStorage()">削除</button>
+        <button id="button" onclick="removeallStorage()">全て削除</button>
+-->
+		<p></p>
+
+		<label class="check_lb"><input type="checkbox"> チェックボックス1</label>
+		<label class="check_lb"><input type="checkbox"> チェックボックス2</label>
+
+        <label> </label>
+
+		<p></p>
+
+		<div>
+            <label><input type="radio" name="testRadio5" value="[らじお1]"> らじお1</label>
+		    <label><input type="radio" name="testRadio5" value="[らじお2]" checked> らじお2</label>
+		    <label><input type="radio" name="testRadio5" value="[らじお3]"> らじお3</label>
+        </div>
+        <div class="radiodata">選択したラジオボタン：<label class="radiodata" id="id_radioData"></label></div>
+        <div>
+            <input type="button" value="ラジオボタン選択Check" id="checkButtonRadio">
+        </div>
+
+        <script>		
+ 			// **************************************************
+			// ボタンクリック処理
+			// **************************************************
+            function buttonClick(){
+                let checkValue = '';
+        
+                for (let i = 0; i < len; i++){
+                    if (fruitRadio.item(i).checked){
+                        checkValue = fruitRadio.item(i).value;
+                    }
+                }
+                var outData2 ='選択されているのは ' + checkValue + ' です';
+                document.getElementById('id_radioData').textContent = outData2;
+            }
+    
+            let fruitRadio = document.getElementsByName('testRadio5');
+            let len = fruitRadio.length;
+            //fruitRadio[0].checked = true;
+    
+            let checkButton = document.getElementById('checkButtonRadio');
+            checkButton.addEventListener('click', buttonClick);
+           
+        </script>
+ 
+        <p></p>
+		
+        <table border="1">
+          <tr><th>キー</th><th>値</th></tr>
+          <tbody id="list"></tbody>
+        </table>
+
+        <p></p>
+        <div class="divsearchkey">
+            検索キー：<input class="cls_serchkey" id="searchkey" type="text">
+            <div class="hitdata">HITした値：<label class="hitdata2" id="searchdata"></label></div>
+            <button id="button" onclick="searchSessionStorage()">検索</button>
+        </div>
+
+        <!-- リスト -->
+        <label>リスト</label>
+        <div class="wrapper">
+            <select name="selectItem" id="idselectItem" size="1">
+                <option value="item0">選択してください</option>
+             </select>
+        </div>
+
+
+        <!-- リスト２ -->
+        <label>リスト２</label><div class="wrapper">
+            <select name="selectItem" id="idselectItem2" size="1">
+                <option value="非選択">選択してください</option>
+                <option value="会社員">会社員</option>
+                <option value="学生">学生</option>
+                <option value="団体職員">団体職員</option>
+                <option value="フリーター">フリーター</option>
+                <option value="その他">その他</option>
+             </select>
+        </div>
+           
+
+        <hr></hr>
+
+        <p><button type="button" onclick="location.href = '../WebStorageTest/test2.html'">画面遷移</button></p>
+
+        <div class="songs">
+            <h2>収録曲</h2>
+            <ol>
+                <li><a href="https://www.yahoo.co.jp/" target="_blank">yahoo</a></li>
+                <li><a href="../WebStorageTest/test2.html">test2へ</a></li>
+                <li>AAA3</li>
+                <li>AAA4</li>
+                <li>AAA5</li>
+                <li>AAA6</li>
+            </ol>
+
+            <ul>
+                <li>BBB1</li>
+                <li>BBB2</li>
+                <li>BBB3</li>
+            </ul>
+        </div>
+
+    </section>
+
+    <footer>
+        <h1>footerです。</h1>
+    </footer>
+ 
+</html>
